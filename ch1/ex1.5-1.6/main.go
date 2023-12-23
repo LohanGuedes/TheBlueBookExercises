@@ -10,22 +10,21 @@ import (
 	"os"
 )
 
-var palette = []color.Color{
-	color.White,
-	color.RGBA{0x00, 0xFF, 0x00, 0xFF},
-	color.RGBA{0xFF, 0x00, 0x00, 0xFF},
-	color.RGBA{0x00, 0x00, 0xFF, 0xFF},
-	color.RGBA{0x00, 0x00, 0x00, 0xFF},
-}
-
 const (
 	whiteIndex = iota
-	greenIndex
 	redIndex
+	greenIndex
 	blueIndex
-	blackIndex // Tem alguma forma de eu acessar esse valor de forma dinamimca?
-	// Considerando que esse valor pode crescer?
+	blackIndex
 )
+
+var palette = []color.Color{
+	color.White,
+	redIndex:   color.RGBA{0xFF, 0x00, 0x00, 0xFF},
+	greenIndex: color.RGBA{0x00, 0xFF, 0x00, 0xFF},
+	blueIndex:  color.RGBA{0x00, 0x00, 0xFF, 0xFF},
+	blackIndex: color.Black,
+}
 
 func main() {
 	lissajous(os.Stdout)
@@ -49,7 +48,7 @@ func lissajous(out io.Writer) {
 			x := math.Sin(t)
 			y := math.Sin(t*freq + phase)
 			img.SetColorIndex(size+int(x*size+0.5), size+int(y*size+0.5),
-				uint8(rand.Uint64()%blackIndex+1)) // Pq acessar sempre blackIndex parece meio gambiarrado. ele pode nao ser o ultimo valor no iota
+				uint8(rand.Uint64()%blackIndex+1))
 		}
 		phase += 0.1
 		anim.Delay = append(anim.Delay, delay)
